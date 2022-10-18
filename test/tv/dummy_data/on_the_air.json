@@ -1,0 +1,22 @@
+{
+  "page": 1,
+  "results": [
+    {
+      "backdrop_path": "/etj8E2o0Bud0HkONVQPjyCkIvpv.jpg",
+      "first_air_date": "2022-08-21",
+      "genre_ids": [10765,18,10759],
+      "id": 94997,
+      "name": "House of the Dragon",
+      "origin_country": ["US", "B", "C"],
+      "original_language": "originalLanguage",
+      "original_name": "originalName",
+      "overview": "Overview",
+      "popularity": 1.0,
+      "poster_path": "posterPath",
+      "vote_average": 8.5,
+      "vote_count": 1816
+    }
+  ],
+  "total_pages": 6928,
+  "total_results": 138558
+}

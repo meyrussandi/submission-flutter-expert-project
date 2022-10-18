@@ -6,24 +6,24 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../../../helpers/test_helper.mocks.dart';
 
-void main(){
+void main() {
   late GetNowPlayingTv usecase;
   late MockTvRepository mockTvRepository;
 
-  setUp((){
+  setUp(() {
     mockTvRepository = MockTvRepository();
     usecase = GetNowPlayingTv(mockTvRepository);
   });
 
   final tTvList = <Tv>[];
 
-  test("seharusnya mendapatkan list tv dari repository", ()async{
+  test("seharusnya mendapatkan list tv dari repository", () async {
     //arrange
-    when(mockTvRepository.getNowPlayingTv()).thenAnswer((_)async => Right(tTvList));
+    when(mockTvRepository.getNowPlayingTv())
+        .thenAnswer((_) async => Right(tTvList));
     //act
     final result = await usecase.execute();
     //assert
     expect(result, Right(tTvList));
   });
-
 }
