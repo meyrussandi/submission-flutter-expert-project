@@ -1,3 +1,5 @@
+import 'package:data_connection_checker/data_connection_checker.dart';
+import 'package:ditonton/common/network_info.dart';
 import 'package:ditonton/data/datasources/db/database_helper.dart';
 import 'package:ditonton/data/datasources/movie_local_data_source.dart';
 import 'package:ditonton/data/datasources/movie_remote_data_source.dart';
@@ -19,9 +21,10 @@ import 'package:ditonton/presentation/provider/movie_search_notifier.dart';
 import 'package:ditonton/presentation/provider/popular_movies_notifier.dart';
 import 'package:ditonton/presentation/provider/top_rated_movies_notifier.dart';
 import 'package:ditonton/presentation/provider/watchlist_movie_notifier.dart';
+import 'package:ditonton/tv/data/datasources/tv_local_data_source.dart';
 import 'package:ditonton/tv/data/datasources/tv_remote_data_source.dart';
 import 'package:ditonton/tv/data/repositories/tv_repository_impl.dart';
-import 'package:ditonton/tv/domain/repositories.dart';
+import 'package:ditonton/tv/domain/repositories/tv_repository.dart';
 import 'package:ditonton/tv/domain/usecases/get_now_playing_tv.dart';
 import 'package:ditonton/tv/domain/usecases/get_popular_tv.dart';
 import 'package:ditonton/tv/domain/usecases/get_top_rated_tv.dart';
@@ -95,8 +98,10 @@ void init() {
     ),
   );
   //tv
-  locator.registerLazySingleton<TvRepository>(
-      () => TvRepositoryImpl(remoteDataSource: locator()));
+  locator.registerLazySingleton<TvRepository>(() => TvRepositoryImpl(
+      remoteDataSource: locator(),
+      networkInfo: locator(),
+      localDataSource: locator()));
 
   // data sources
   locator.registerLazySingleton<MovieRemoteDataSource>(
@@ -106,10 +111,16 @@ void init() {
   //tv
   locator.registerLazySingleton<TvRemoteDataSource>(
       () => TvRemoteDataSourceImpl(client: locator()));
+  locator.registerLazySingleton<TvLocalDataSource>(
+      () => TvLocalDataSourceImpl(tvDatabaseHelper: locator()));
 
   // helper
   locator.registerLazySingleton<DatabaseHelper>(() => DatabaseHelper());
 
+  //network info
+  locator.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(locator()));
+
   // external
   locator.registerLazySingleton(() => http.Client());
+  locator.registerLazySingleton(() => DataConnectionChecker());
 }

@@ -51,4 +51,64 @@ void main() {
       expect(() => call, throwsA(isA<ServerException>()));
     });
   });
+
+  group("get popular tv", () {
+    final tTvList = TvResponse.fromJson(
+            json.decode(readJson('tv/dummy_data/on_the_air.json')))
+        .tvList;
+
+    test("seharusnya mengembalikan list of tv model ketika codenya 200",
+        () async {
+      //arrange
+      when(mockHttpClient.get(Uri.parse('$BASE_URL/tv/popular?$API_KEY')))
+          .thenAnswer((_) async =>
+              http.Response(readJson('tv/dummy_data/on_the_air.json'), 200));
+      //act
+      final result = await dataSource.getPopularTv();
+      //assert
+      expect(result, equals(tTvList));
+    });
+
+    test(
+        "seharusnya mengembalikan server exception ketika codenya 404 atau yg lainnya",
+        () async {
+      //arrange
+      when(mockHttpClient.get(Uri.parse('$BASE_URL/tv/popular?$API_KEY')))
+          .thenAnswer((_) async => http.Response('Not Found', 404));
+      //act
+      final call = dataSource.getPopularTv();
+      //assert
+      expect(() => call, throwsA(isA<ServerException>()));
+    });
+  });
+
+  group("get top rate tv", () {
+    final tTvList = TvResponse.fromJson(
+            json.decode(readJson('tv/dummy_data/on_the_air.json')))
+        .tvList;
+
+    test("seharusnya mengembalikan list of tv model ketika codenya 200",
+        () async {
+      //arrange
+      when(mockHttpClient.get(Uri.parse('$BASE_URL/tv/top_rated?$API_KEY')))
+          .thenAnswer((_) async =>
+              http.Response(readJson('tv/dummy_data/on_the_air.json'), 200));
+      //act
+      final result = await dataSource.getTopRatedTv();
+      //assert
+      expect(result, equals(tTvList));
+    });
+
+    test(
+        "seharusnya mengembalikan server exception ketika codenya 404 atau yg lainnya",
+        () async {
+      //arrange
+      when(mockHttpClient.get(Uri.parse('$BASE_URL/tv/top_rated?$API_KEY')))
+          .thenAnswer((_) async => http.Response('Not Found', 404));
+      //act
+      final call = dataSource.getTopRatedTv();
+      //assert
+      expect(() => call, throwsA(isA<ServerException>()));
+    });
+  });
 }

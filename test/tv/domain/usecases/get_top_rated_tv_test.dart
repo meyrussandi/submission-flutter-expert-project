@@ -6,11 +6,11 @@ import 'package:mockito/mockito.dart';
 
 import '../../../helpers/test_helper.mocks.dart';
 
-void main(){
+void main() {
   late GetTopRatedTv usecase;
   late MockTvRepository mockTvRepository;
 
-  setUp((){
+  setUp(() {
     mockTvRepository = MockTvRepository();
     usecase = GetTopRatedTv(mockTvRepository);
   });
@@ -20,7 +20,7 @@ void main(){
   group("get top rated tv", () {
     test("seharusnya mendapatkan list tv top rating", () async {
       //arrange
-      when(mockTvRepository.getPopularTv())
+      when(mockTvRepository.getTopRatedTv())
           .thenAnswer((_) async => Right(tTvList));
 
       //act

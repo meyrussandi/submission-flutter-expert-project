@@ -1,30 +1,26 @@
 import 'package:equatable/equatable.dart';
 
-class Tv extends Equatable{
-  Tv({
-    required this.backdropPath,
-    required this.firstAirDate,
-    required this.genreIds,
-    required this.id,
-    required this.name,
-    required this.originCountry,
-    required this.originalLanguage,
-    required this.originalName,
-    required this.overview,
-    required this.popularity,
-    required this.posterPath,
-    required this.voteAverage,
-    required this.voteCount
-});
+class Tv extends Equatable {
+  Tv(
+      {required this.backdropPath,
+      required this.firstAirDate,
+      required this.genreIds,
+      required this.id,
+      required this.name,
+      required this.originCountry,
+      required this.originalLanguage,
+      required this.originalName,
+      required this.overview,
+      required this.popularity,
+      required this.posterPath,
+      required this.voteAverage,
+      required this.voteCount});
 
-  Tv.wacthList({
-    required this.id,
-    required this.overview,
-    required this.name,
-    required this.posterPath,
-    required this.voteAverage
-});
-
+  Tv.watchList(
+      {required this.id,
+      required this.overview,
+      required this.name,
+      required this.posterPath});
 
   String? backdropPath;
   String? firstAirDate;
@@ -42,20 +38,18 @@ class Tv extends Equatable{
 
   @override
   List<Object?> get props => [
-    backdropPath,
-    firstAirDate,
-    genreIds,
-    id,
-    name,
-    originCountry,
-    originalLanguage,
-    originalName,
-    overview,
-    popularity,
-    posterPath,
-    voteAverage,
-    voteCount
-  ];
-
-
+        backdropPath,
+        firstAirDate,
+        genreIds,
+        id,
+        name,
+        originCountry,
+        originalLanguage,
+        originalName,
+        overview,
+        popularity,
+        posterPath,
+        voteAverage,
+        voteCount
+      ];
 }
