@@ -1,14 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:ditonton/common/exception.dart';
 import 'package:ditonton/common/failure.dart';
-import 'package:ditonton/tv/data/models/tv_model.dart';
-import 'package:ditonton/tv/data/models/tv_table.dart';
 import 'package:ditonton/tv/data/repositories/tv_repository_impl.dart';
-import 'package:ditonton/tv/domain/entities/tv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../../helpers/test_helper.mocks.dart';
+import '../../dummy_data/dummy_object.dart';
 
 void main() {
   late TvRepositoryImpl repositoryImpl;
@@ -25,51 +23,6 @@ void main() {
         localDataSource: mockTvLocalDataSource,
         networkInfo: mockNetworkInfo);
   });
-
-  final tTvModel = TvModel(
-      backdropPath: "backdropPath",
-      firstAirDate: "firstAirDate",
-      genreIds: [1, 2, 3],
-      id: 121,
-      name: "House of the Dragon",
-      originCountry: ["A", "B", "C"],
-      originalLanguage: "originalLanguage",
-      originalName: "originalName",
-      overview: "overview",
-      popularity: 1,
-      posterPath: "/etj8E2o0Bud0HkONVQPjyCkIvpv.jpg",
-      voteAverage: 1,
-      voteCount: 1);
-
-  final tTv = Tv(
-      backdropPath: "backdropPath",
-      firstAirDate: "firstAirDate",
-      genreIds: [1, 2, 3],
-      id: 121,
-      name: "House of the Dragon",
-      originCountry: ["A", "B", "C"],
-      originalLanguage: "originalLanguage",
-      originalName: "originalName",
-      overview: "overview",
-      popularity: 1,
-      posterPath: "/etj8E2o0Bud0HkONVQPjyCkIvpv.jpg",
-      voteAverage: 1,
-      voteCount: 1);
-
-  final tTvModelList = <TvModel>[tTvModel];
-  final tTvList = <Tv>[tTv];
-
-  final testTvCache = TvTable(
-      id: 121,
-      name: "House of the Dragon",
-      posterPath: "/etj8E2o0Bud0HkONVQPjyCkIvpv.jpg",
-      overview: "overview");
-
-  final testTvFromCache = Tv.watchList(
-      id: 121,
-      name: "House of the Dragon",
-      posterPath: "/etj8E2o0Bud0HkONVQPjyCkIvpv.jpg",
-      overview: "overview");
 
   group("tv on air", () {
     group("ketika terhubung ke internet", () {

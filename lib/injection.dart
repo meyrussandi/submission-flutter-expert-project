@@ -22,6 +22,7 @@ import 'package:ditonton/presentation/provider/popular_movies_notifier.dart';
 import 'package:ditonton/presentation/provider/top_rated_movies_notifier.dart';
 import 'package:ditonton/presentation/provider/watchlist_movie_notifier.dart';
 import 'package:ditonton/provider/tab_menu_notifier.dart';
+import 'package:ditonton/tv/data/datasources/db/database_helper.dart';
 import 'package:ditonton/tv/data/datasources/tv_local_data_source.dart';
 import 'package:ditonton/tv/data/datasources/tv_remote_data_source.dart';
 import 'package:ditonton/tv/data/repositories/tv_repository_impl.dart';
@@ -29,6 +30,7 @@ import 'package:ditonton/tv/domain/repositories/tv_repository.dart';
 import 'package:ditonton/tv/domain/usecases/get_now_playing_tv.dart';
 import 'package:ditonton/tv/domain/usecases/get_popular_tv.dart';
 import 'package:ditonton/tv/domain/usecases/get_top_rated_tv.dart';
+import 'package:ditonton/tv/presentation/provider/tv_list_notifier.dart';
 import 'package:http/http.dart' as http;
 import 'package:get_it/get_it.dart';
 
@@ -38,6 +40,11 @@ void init() {
   // provider
 
   locator.registerFactory(() => TabMenuNotifier());
+
+  locator.registerFactory(() => TvListNotifier(
+      getNowPlayingTv: locator(),
+      getPopularTv: locator(),
+      getTopRatedTv: locator()));
 
   locator.registerFactory(
     () => MovieListNotifier(
@@ -97,9 +104,9 @@ void init() {
   //movie
   locator.registerLazySingleton<MovieRepository>(
     () => MovieRepositoryImpl(
-      remoteDataSource: locator(),
-      localDataSource: locator(),
-    ),
+        remoteDataSource: locator(),
+        localDataSource: locator(),
+        networkInfo: locator()),
   );
   //tv
   locator.registerLazySingleton<TvRepository>(() => TvRepositoryImpl(
@@ -120,6 +127,7 @@ void init() {
 
   // helper
   locator.registerLazySingleton<DatabaseHelper>(() => DatabaseHelper());
+  locator.registerLazySingleton<TvDatabaseHelper>(() => TvDatabaseHelper());
 
   //network info
   locator.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(locator()));

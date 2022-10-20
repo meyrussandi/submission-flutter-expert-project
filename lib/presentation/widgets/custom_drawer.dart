@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/presentation/pages/home_movie_page.dart';
 import 'package:ditonton/provider/tab_menu_notifier.dart';
@@ -41,11 +42,17 @@ class _CustomDrawerState extends State<CustomDrawer>
         children: [
           UserAccountsDrawerHeader(
             currentAccountPicture: CircleAvatar(
-              backgroundImage: NetworkImage(
-                  'https://raw.githubusercontent.com/dicodingacademy/assets/main/flutter_expert_academy/dicoding-icon.png'),
-            ),
-            accountName: Text('Ditonton'),
-            accountEmail: Text('ditonton@dicoding.com'),
+                // backgroundImage: CachedNetworkImage(
+                //   imageUrl:
+                //       'https://raw.githubusercontent.com/dicodingacademy/assets/main/flutter_expert_academy/dicoding-icon.png',
+                //   placeholder: (context, url) => Center(
+                //     child: CircularProgressIndicator(),
+                //   ),
+                //   errorWidget: (context, url, error) => Icon(Icons.error),
+                // ) as ImageProvider,
+                ),
+            accountName: Text('Andy'),
+            accountEmail: Text('andyyy@dicoding.com'),
           ),
           ListTile(
             onTap: () {
@@ -58,7 +65,7 @@ class _CustomDrawerState extends State<CustomDrawer>
           ListTile(
             onTap: () {
               Provider.of<TabMenuNotifier>(context, listen: false)
-                  .currentMenuTab = MenuTabState.Tv ;
+                  .currentMenuTab = MenuTabState.Tv;
             },
             leading: Icon(Icons.movie),
             title: Text('TV'),
@@ -95,12 +102,12 @@ class _CustomDrawerState extends State<CustomDrawer>
                 alignment: Alignment.centerLeft,
                 child:
                     Consumer<TabMenuNotifier>(builder: (context, data, child) {
-                      final state = data.currentMenuTab;
-                      if(state == MenuTabState.Movie){
-                        return HomeMoviePage();
-                      }else if(state == MenuTabState.Tv){
-                        return HomeTvPage();
-                      }
+                  final state = data.currentMenuTab;
+                  if (state == MenuTabState.Movie) {
+                    return HomeMoviePage();
+                  } else if (state == MenuTabState.Tv) {
+                    return HomeTvPage();
+                  }
                   return Container(
                     width: 100,
                     height: 100,

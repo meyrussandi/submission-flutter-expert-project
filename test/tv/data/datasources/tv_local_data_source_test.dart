@@ -5,23 +5,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../../helpers/test_helper.mocks.dart';
+import '../../dummy_data/dummy_object.dart';
 
 void main() {
   late TvLocalDataSourceImpl localDataSource;
   late MockTvDatabaseHelper databaseHelper;
-
-  final testTvCache = TvTable(
-      id: 121,
-      name: "House of the Dragon",
-      posterPath: "/etj8E2o0Bud0HkONVQPjyCkIvpv.jpg",
-      overview: "overview");
-
-  final testTvCacheMap = {
-    "id": 121,
-    "name": "House of the Dragon",
-    "posterPath": "/etj8E2o0Bud0HkONVQPjyCkIvpv.jpg",
-    "overview": "overview"
-  };
 
   setUp(() {
     databaseHelper = MockTvDatabaseHelper();
