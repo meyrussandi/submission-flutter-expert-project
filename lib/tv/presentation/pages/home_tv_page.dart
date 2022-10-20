@@ -12,17 +12,17 @@ import 'package:ditonton/common/state_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class HomeMoviePage extends StatefulWidget {
+class HomeTvPage extends StatefulWidget {
   @override
-  _HomeMoviePageState createState() => _HomeMoviePageState();
+  _HomeTvPageState createState() => _HomeTvPageState();
 }
 
-class _HomeMoviePageState extends State<HomeMoviePage> {
+class _HomeTvPageState extends State<HomeTvPage> {
   @override
   void initState() {
     super.initState();
     Future.microtask(
-        () => Provider.of<MovieListNotifier>(context, listen: false)
+            () => Provider.of<MovieListNotifier>(context, listen: false)
           ..fetchNowPlayingMovies()
           ..fetchPopularMovies()
           ..fetchTopRatedMovies());
@@ -67,7 +67,7 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
       // ),
       appBar: AppBar(
         leading: Icon(Icons.menu),
-        title: Text('Ditonton'),
+        title: Text('Ditonton tv'),
         actions: [
           IconButton(
             onPressed: () {

@@ -21,6 +21,7 @@ import 'package:ditonton/presentation/provider/movie_search_notifier.dart';
 import 'package:ditonton/presentation/provider/popular_movies_notifier.dart';
 import 'package:ditonton/presentation/provider/top_rated_movies_notifier.dart';
 import 'package:ditonton/presentation/provider/watchlist_movie_notifier.dart';
+import 'package:ditonton/provider/tab_menu_notifier.dart';
 import 'package:ditonton/tv/data/datasources/tv_local_data_source.dart';
 import 'package:ditonton/tv/data/datasources/tv_remote_data_source.dart';
 import 'package:ditonton/tv/data/repositories/tv_repository_impl.dart';
@@ -35,6 +36,9 @@ final locator = GetIt.instance;
 
 void init() {
   // provider
+
+  locator.registerFactory(() => TabMenuNotifier());
+
   locator.registerFactory(
     () => MovieListNotifier(
       getNowPlayingMovies: locator(),
