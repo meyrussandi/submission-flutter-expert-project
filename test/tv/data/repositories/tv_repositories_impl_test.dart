@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:ditonton/common/exception.dart';
 import 'package:ditonton/common/failure.dart';
 import 'package:ditonton/tv/data/repositories/tv_repository_impl.dart';
+import 'package:ditonton/tv/domain/entities/tv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
@@ -281,6 +284,146 @@ void main() {
         verify(mockTvLocalDataSource.getCacheTopRatedTv());
         expect(result, Left(CacheFailure("No Cache")));
       });
+    });
+  });
+
+  group('Get Tv Recommendations', () {
+    setUp(() {
+      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+    });
+    final tId = 1399;
+
+    test('seharusnya mengembalikan list tv ketika sukses mendapatkan data',
+        () async {
+      // arrange
+      when(mockTvRemoteDataSource.getTvRecommendations(tId))
+          .thenAnswer((_) async => tTvModelList);
+      // act
+      final result = await repositoryImpl.getTvRecommendations(tId);
+      // assert
+      verify(mockTvRemoteDataSource.getTvRecommendations(tId));
+      /* workaround to test List in Right. Issue: https://github.com/spebbe/dartz/issues/80 */
+      final resultList = result.getOrElse(() => []);
+      expect(resultList, equals(tTvList));
+    });
+
+    test('seharusnya mengembalikan failure ketika gagal', () async {
+      // arrange
+      when(mockTvRemoteDataSource.getTvRecommendations(tId))
+          .thenThrow(ServerException());
+      // act
+      final result = await repositoryImpl.getTvRecommendations(tId);
+      // assertbuild runner
+      verify(mockTvRemoteDataSource.getTvRecommendations(tId));
+      expect(result, equals(Left(ServerFailure(''))));
+    });
+
+    group("no internet", () {
+      setUp(() {
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+      });
+      test(
+          'seharusnya mentgembalikan koneksi failure ketika tidak ada internet',
+          () async {
+        // arrange
+        when(mockTvRemoteDataSource.getTvRecommendations(tId))
+            .thenThrow(ConnectionFailure('no network'));
+        // act
+        final result = await repositoryImpl.getTvRecommendations(tId);
+        // assert
+        //verify(mockTvRemoteDataSource.getTvRecommendations(tId));
+        expect(result, equals(Left(ConnectionFailure('no network'))));
+      });
+    });
+  });
+  group('watchlist', () {
+    test('mengembalikan jika data tidak ada', () async {
+      // arrange
+      final tId = 1;
+      when(mockTvLocalDataSource.getTvById(tId)).thenAnswer((_) async => null);
+      // act
+      final result = await repositoryImpl.isInWatchList(tId);
+      // assert
+      expect(result, false);
+    });
+
+    test('seharusnya mengembalikan pesan sukses ketika berhasil hapus',
+        () async {
+      // arrange
+      when(mockTvLocalDataSource.removeTvWatchList(testTvTableCache))
+          .thenAnswer((_) async => 'Removed from watchlist');
+      // act
+      final result = await repositoryImpl.removeWatchListTv(testTvDetail);
+      // assert
+      expect(result, Right('Removed from watchlist'));
+    });
+
+    test('seharusnye mengembalikan DatabaseFailure ketika hapus gagal',
+        () async {
+      // arrange
+      when(mockTvLocalDataSource.removeTvWatchList(testTvTableCache))
+          .thenThrow(DatabaseException('Failed to remove watchlist'));
+      // act
+      final result = await repositoryImpl.removeWatchListTv(testTvDetail);
+      // assert
+      expect(result, Left(DatabaseFailure('Failed to remove watchlist')));
+    });
+
+    final testTv = Tv.watchList(
+        id: 94997,
+        name: "House of the Dragon",
+        posterPath: "/etj8E2o0Bud0HkONVQPjyCkIvpv.jpg",
+        overview:
+            "The Targaryen dynasty is at the absolute apex of its power, with more than 15 dragons under their yoke. Most empires crumble from such heights. In the case of the Targaryens, their slow fall begins when King Viserys breaks with a century of tradition by naming his daughter Rhaenyra heir to the Iron Throne. But when Viserys later fathers a son, the court is shocked when Rhaenyra retains her status as his heir, and seeds of division sow friction across the realm.");
+
+    test('seharusnya mengembalikan list tv', () async {
+      // arrange
+      when(mockTvLocalDataSource.getWatchListTv())
+          .thenAnswer((_) async => [testTvCache]);
+      // act
+      final result = await repositoryImpl.getWatchlistTv();
+      // assert
+      final resultList = result.getOrElse(() => []);
+      expect(resultList, [testTv]);
+    });
+  });
+
+  group('Seach Tv', () {
+    final tQuery = 'game';
+
+    test('seharusnya mengembalikan list tv ketika berhasil', () async {
+      // arrange
+      when(mockTvRemoteDataSource.searchTv(tQuery))
+          .thenAnswer((_) async => tTvModelList);
+      // act
+      final result = await repositoryImpl.searchTv(tQuery);
+      // assert
+      /* workaround to test List in Right. Issue: https://github.com/spebbe/dartz/issues/80 */
+      final resultList = result.getOrElse(() => []);
+      expect(resultList, tTvList);
+    });
+
+    test('seharusnay mengembalikan ServerFailure ketika gagal', () async {
+      // arrange
+      when(mockTvRemoteDataSource.searchTv(tQuery))
+          .thenThrow(ServerException());
+      // act
+      final result = await repositoryImpl.searchTv(tQuery);
+      // assert
+      expect(result, Left(ServerFailure('')));
+    });
+
+    test(
+        'sseharusnye mengembalikan connectionfailure ketika tidak ada internet',
+        () async {
+      // arrange
+      when(mockTvRemoteDataSource.searchTv(tQuery))
+          .thenThrow(SocketException('Failed to connect to the network'));
+      // act
+      final result = await repositoryImpl.searchTv(tQuery);
+      // assert
+      expect(
+          result, Left(ConnectionFailure('Failed to connect to the network')));
     });
   });
 }

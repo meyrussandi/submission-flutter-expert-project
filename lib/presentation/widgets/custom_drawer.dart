@@ -3,6 +3,7 @@ import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/presentation/pages/home_movie_page.dart';
 import 'package:ditonton/provider/tab_menu_notifier.dart';
 import 'package:ditonton/tv/presentation/pages/home_tv_page.dart';
+import 'package:ditonton/tv/presentation/pages/watchlist_tv_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -67,7 +68,7 @@ class _CustomDrawerState extends State<CustomDrawer>
               Provider.of<TabMenuNotifier>(context, listen: false)
                   .currentMenuTab = MenuTabState.Tv;
             },
-            leading: Icon(Icons.movie),
+            leading: Icon(Icons.tv),
             title: Text('TV'),
           ),
           ListTile(
@@ -75,7 +76,14 @@ class _CustomDrawerState extends State<CustomDrawer>
               Navigator.pushNamed(context, WatchlistMoviesPage.ROUTE_NAME);
             },
             leading: Icon(Icons.save_alt),
-            title: Text('Watchlist'),
+            title: Text('Watchlist Movie'),
+          ),
+          ListTile(
+            onTap: () {
+              Navigator.pushNamed(context, WatchlistTvPage.ROUTE_NAME);
+            },
+            leading: Icon(Icons.save_outlined),
+            title: Text('Watchlist TV'),
           ),
         ],
       ),

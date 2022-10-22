@@ -1,11 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/presentation/pages/movie_detail_page.dart';
-import 'package:ditonton/presentation/pages/popular_movies_page.dart';
 import 'package:ditonton/presentation/pages/search_page.dart';
-import 'package:ditonton/presentation/pages/top_rated_movies_page.dart';
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/tv/domain/entities/tv.dart';
+import 'package:ditonton/tv/presentation/pages/now_playing_tv_page.dart';
+import 'package:ditonton/tv/presentation/pages/popular_tv_page.dart';
+import 'package:ditonton/tv/presentation/pages/search_tv_page.dart';
+import 'package:ditonton/tv/presentation/pages/top_rated_tv_page.dart';
+import 'package:ditonton/tv/presentation/pages/tv_detail_page.dart';
 import 'package:ditonton/tv/presentation/provider/tv_list_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,11 +33,11 @@ class _HomeTvPageState extends State<HomeTvPage> {
     return Scaffold(
       appBar: AppBar(
         leading: Icon(Icons.menu),
-        title: Text('Ditonton tv'),
+        title: Text('TV Show'),
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, SearchPage.ROUTE_NAME);
+              Navigator.pushNamed(context, SearchTvPage.ROUTE_NAME);
             },
             icon: Icon(Icons.search),
           )
@@ -46,9 +49,10 @@ class _HomeTvPageState extends State<HomeTvPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Now Playing',
-                style: kHeading6,
+              _buildSubHeading(
+                title: 'Now Playing',
+                onTap: () =>
+                    Navigator.pushNamed(context, NowPlayingTvPage.ROUTE_NAME),
               ),
               Consumer<TvListNotifier>(builder: (context, data, child) {
                 final state = data.nowPlayingState;
@@ -65,7 +69,7 @@ class _HomeTvPageState extends State<HomeTvPage> {
               _buildSubHeading(
                 title: 'Popular',
                 onTap: () =>
-                    Navigator.pushNamed(context, PopularMoviesPage.ROUTE_NAME),
+                    Navigator.pushNamed(context, PopularTvPage.ROUTE_NAME),
               ),
               Consumer<TvListNotifier>(builder: (context, data, child) {
                 final state = data.popularState;
@@ -82,7 +86,7 @@ class _HomeTvPageState extends State<HomeTvPage> {
               _buildSubHeading(
                 title: 'Top Rated',
                 onTap: () =>
-                    Navigator.pushNamed(context, TopRatedMoviesPage.ROUTE_NAME),
+                    Navigator.pushNamed(context, TopRatedTvPage.ROUTE_NAME),
               ),
               Consumer<TvListNotifier>(builder: (context, data, child) {
                 final state = data.topRatedState;
@@ -144,7 +148,7 @@ class TvList extends StatelessWidget {
               onTap: () {
                 Navigator.pushNamed(
                   context,
-                  MovieDetailPage.ROUTE_NAME,
+                  TvDetailPage.ROUTE_NAME,
                   arguments: tv.id,
                 );
               },

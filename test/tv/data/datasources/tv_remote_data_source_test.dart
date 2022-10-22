@@ -1,7 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:ditonton/common/exception.dart';
 import 'package:ditonton/tv/data/datasources/tv_remote_data_source.dart';
+import 'package:ditonton/tv/data/models/tv_detail_model.dart';
+import 'package:ditonton/tv/data/models/tv_model.dart';
 import 'package:ditonton/tv/data/models/tv_response.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -108,6 +111,101 @@ void main() {
       //act
       final call = dataSource.getTopRatedTv();
       //assert
+      expect(() => call, throwsA(isA<ServerException>()));
+    });
+  });
+
+  group('get tv detail', () {
+    final tId = 1;
+    final tMovieDetail = TvDetailModel.fromJson(
+        json.decode(readJson('tv/dummy_data/tv_detail.json')));
+
+    test('seharusnya mengembalikan tv model ketika status code 200', () async {
+      // arrange
+      when(mockHttpClient.get(Uri.parse('$BASE_URL/tv/$tId?$API_KEY')))
+          .thenAnswer((_) async =>
+              http.Response(readJson('tv/dummy_data/tv_detail.json'), 200));
+      // act
+      final result = await dataSource.getTvDetail(tId);
+      // assert
+      expect(result, equals(tMovieDetail));
+    });
+
+    test('seharusnya melempar exception ketika code bukan 200', () async {
+      // arrange
+      when(mockHttpClient.get(Uri.parse('$BASE_URL/tv/$tId?$API_KEY')))
+          .thenAnswer((_) async => http.Response('Not Found', 404));
+      // act
+      final call = dataSource.getTvDetail(tId);
+      // assert
+      expect(() => call, throwsA(isA<ServerException>()));
+    });
+  });
+
+  group('get tv recommendations', () {
+    final tMovieList = TvResponse.fromJson(
+            json.decode(readJson('tv/dummy_data/tv_recommendations.json')))
+        .tvList;
+    final tId = 1;
+
+    test('seharusnya mengembalikan list tv ketika status code 200', () async {
+      // arrange
+      when(mockHttpClient
+              .get(Uri.parse('$BASE_URL/tv/$tId/recommendations?$API_KEY')))
+          .thenAnswer((_) async => http.Response(
+                  readJson('tv/dummy_data/tv_recommendations.json'), 200,
+                  headers: {
+                    HttpHeaders.contentTypeHeader:
+                        'application/json; charset=utf-8',
+                  }));
+      // act
+      final result = await dataSource.getTvRecommendations(tId);
+      // assert
+      expect(result, equals(tMovieList));
+    });
+
+    test(
+        'seharusnya mengemnbalikan server exception ketika stattus code bukan 200',
+        () async {
+      // arrange
+      when(mockHttpClient
+              .get(Uri.parse('$BASE_URL/tv/$tId/recommendations?$API_KEY')))
+          .thenAnswer((_) async => http.Response('Not Found', 404));
+      // act
+      final call = dataSource.getTvRecommendations(tId);
+      // assert
+      expect(() => call, throwsA(isA<ServerException>()));
+    });
+  });
+
+  group('search tv', () {
+    final tSearchResult = TvResponse.fromJson(
+            json.decode(readJson('tv/dummy_data/search_game_of_thrones.json')))
+        .tvList;
+    final tQuery = 'Game';
+
+    test('seharusnya mengembalikan list tv ketika status code 200', () async {
+      // arrange
+      when(mockHttpClient
+              .get(Uri.parse('$BASE_URL/search/tv?$API_KEY&query=$tQuery')))
+          .thenAnswer((_) async => http.Response(
+              readJson('tv/dummy_data/search_game_of_thrones.json'), 200));
+      // act
+      final result = await dataSource.searchTv(tQuery);
+      // assert
+      expect(result, tSearchResult);
+    });
+
+    test(
+        'seharusnya mengembalikan serverexception ketika status code bukan 200',
+        () async {
+      // arrange
+      when(mockHttpClient
+              .get(Uri.parse('$BASE_URL/search/tv?$API_KEY&query=$tQuery')))
+          .thenAnswer((_) async => http.Response('Not Found', 404));
+      // act
+      final call = dataSource.searchTv(tQuery);
+      // assert
       expect(() => call, throwsA(isA<ServerException>()));
     });
   });

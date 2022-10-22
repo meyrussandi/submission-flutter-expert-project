@@ -118,4 +118,81 @@ void main() {
       expect(() => call, throwsA(isA<CacheException>()));
     });
   });
+
+  group('simpan watchlist', () {
+    test('seharusnya sukses ketika berhasil menambah data', () async {
+      // arrange
+      when(databaseHelper.insertWatchlist(testTvCache))
+          .thenAnswer((_) async => 1);
+      // act
+      final result = await localDataSource.insertTvWatchList(testTvCache);
+      // assert
+      expect(result, 'Added to Watchlist');
+    });
+
+    test('seharuisnya mengambalikan exception ketika gagala', () async {
+      // arrange
+      when(databaseHelper.insertWatchlist(testTvCache)).thenThrow(Exception());
+      // act
+      final call = localDataSource.insertTvWatchList(testTvCache);
+      // assert
+      expect(() => call, throwsA(isA<DatabaseException>()));
+    });
+  });
+
+  group('hapus watchlist', () {
+    test('seharusnay mengembalikan pesan suskes ketika berhasil', () async {
+      // arrange
+      when(databaseHelper.removeWatchlist(testTvCache))
+          .thenAnswer((_) async => 1);
+      // act
+      final result = await localDataSource.removeTvWatchList(testTvCache);
+      // assert
+      expect(result, 'Removed from Watchlist');
+    });
+
+    test('seharusnya mengembalikan error ketikla gagal hapus', () async {
+      // arrange
+      when(databaseHelper.removeWatchlist(testTvCache)).thenThrow(Exception());
+      // act
+      final call = localDataSource.removeTvWatchList(testTvCache);
+      // assert
+      expect(() => call, throwsA(isA<DatabaseException>()));
+    });
+  });
+
+  group('get tv detail by id', () {
+    final tId = 1;
+
+    test('seharusnya mengamblikan tv table ketika ada datanya', () async {
+      // arrange
+      when(databaseHelper.getTvById(tId))
+          .thenAnswer((_) async => testTvCacheMap);
+      // act
+      final result = await localDataSource.getTvById(tId);
+      // assert
+      expect(result, testTvCache);
+    });
+
+    test('seharusnya mengembalikan null ketika data tidak ditemukan', () async {
+      // arrange
+      when(databaseHelper.getTvById(tId)).thenAnswer((_) async => null);
+      // act
+      final result = await localDataSource.getTvById(tId);
+      // assert
+      expect(result, null);
+    });
+  });
+
+  group('get watchlist tv', () {
+    test('seharusnya mengembalikan list tv dari database', () async {
+      // arrange
+      when(databaseHelper.getWatchlistTv())
+          .thenAnswer((_) async => [testTvCacheMap]);
+      // act
+      final result = await localDataSource.getWatchListTv();
+      // assert
+      expect(result, [testTvCache]);
+    });
+  });
 }

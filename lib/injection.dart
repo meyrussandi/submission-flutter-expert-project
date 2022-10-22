@@ -30,7 +30,17 @@ import 'package:ditonton/tv/domain/repositories/tv_repository.dart';
 import 'package:ditonton/tv/domain/usecases/get_now_playing_tv.dart';
 import 'package:ditonton/tv/domain/usecases/get_popular_tv.dart';
 import 'package:ditonton/tv/domain/usecases/get_top_rated_tv.dart';
+import 'package:ditonton/tv/domain/usecases/get_tv_detail.dart';
+import 'package:ditonton/tv/domain/usecases/get_tv_recomendations.dart';
+import 'package:ditonton/tv/domain/usecases/get_tv_watchlist_status.dart';
+import 'package:ditonton/tv/domain/usecases/get_watchlist_tv.dart';
+import 'package:ditonton/tv/domain/usecases/remove_watchlist_tv.dart';
+import 'package:ditonton/tv/domain/usecases/save_wacthlist_tv.dart';
+import 'package:ditonton/tv/domain/usecases/search_tv.dart';
+import 'package:ditonton/tv/presentation/provider/tv_detail_notifier.dart';
 import 'package:ditonton/tv/presentation/provider/tv_list_notifier.dart';
+import 'package:ditonton/tv/presentation/provider/tv_search_notifier.dart';
+import 'package:ditonton/tv/presentation/provider/watchlist_tv_notifier.dart';
 import 'package:http/http.dart' as http;
 import 'package:get_it/get_it.dart';
 
@@ -46,6 +56,13 @@ void init() {
       getPopularTv: locator(),
       getTopRatedTv: locator()));
 
+  locator.registerFactory(() => TvDetailNotifier(
+      getTvDetail: locator(),
+      getTvRecommendations: locator(),
+      getTvWatchListStatus: locator(),
+      saveWatchListTv: locator(),
+      removeWatchListTv: locator()));
+
   locator.registerFactory(
     () => MovieListNotifier(
       getNowPlayingMovies: locator(),
@@ -53,6 +70,10 @@ void init() {
       getTopRatedMovies: locator(),
     ),
   );
+
+  locator.registerFactory(() => WatchlistTvNotifier(getWatchListTv: locator()));
+  locator.registerFactory(() => TvSearchNotifier(searchTv: locator()));
+
   locator.registerFactory(
     () => MovieDetailNotifier(
       getMovieDetail: locator(),
@@ -99,6 +120,13 @@ void init() {
   locator.registerLazySingleton(() => GetNowPlayingTv(locator()));
   locator.registerLazySingleton(() => GetPopularTv(locator()));
   locator.registerLazySingleton(() => GetTopRatedTv(locator()));
+  locator.registerLazySingleton(() => GetTvDetail(locator()));
+  locator.registerLazySingleton(() => GetTvRecommendations(locator()));
+  locator.registerLazySingleton(() => GetTvWatchListStatus(locator()));
+  locator.registerLazySingleton(() => SaveWatchListTv(locator()));
+  locator.registerLazySingleton(() => RemoveWatchListTv(locator()));
+  locator.registerLazySingleton(() => GetWatchListTv(locator()));
+  locator.registerLazySingleton(() => SearchTv(locator()));
 
   // repository
   //movie

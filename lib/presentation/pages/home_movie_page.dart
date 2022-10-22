@@ -67,7 +67,7 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
       // ),
       appBar: AppBar(
         leading: Icon(Icons.menu),
-        title: Text('Ditonton'),
+        title: Text('MOVIE'),
         actions: [
           IconButton(
             onPressed: () {

@@ -8,8 +8,12 @@ abstract class TvLocalDataSource {
   Future<List<TvTable>> getCacheNowPlayingTv();
   Future<void> cachePopularTv(List<TvTable> tvList);
   Future<List<TvTable>> getCachePopularTv();
+  Future<List<TvTable>> getWatchListTv();
+  Future<String> insertTvWatchList(TvTable tvTable);
+  Future<String> removeTvWatchList(TvTable tvTable);
   Future<void> cacheTopRatedTv(List<TvTable> tvList);
   Future<List<TvTable>> getCacheTopRatedTv();
+  Future<TvTable?> getTvById(int id);
 }
 
 class TvLocalDataSourceImpl implements TvLocalDataSource {
@@ -61,6 +65,42 @@ class TvLocalDataSourceImpl implements TvLocalDataSource {
       return result.map((e) => TvTable.fromMap(e)).toList();
     } else {
       throw CacheException("Can't get the data :(");
+    }
+  }
+
+  @override
+  Future<TvTable?> getTvById(int id) async {
+    final result = await tvDatabaseHelper.getTvById(id);
+    if (result != null) {
+      return TvTable.fromMap(result);
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<List<TvTable>> getWatchListTv() async {
+    final result = await tvDatabaseHelper.getWatchlistTv();
+    return result.map((data) => TvTable.fromMap(data)).toList();
+  }
+
+  @override
+  Future<String> insertTvWatchList(TvTable tvTable) async {
+    try {
+      await tvDatabaseHelper.insertWatchlist(tvTable);
+      return 'Added to Watchlist';
+    } catch (e) {
+      throw DatabaseException(e.toString());
+    }
+  }
+
+  @override
+  Future<String> removeTvWatchList(TvTable tvTable) async {
+    try {
+      await tvDatabaseHelper.removeWatchlist(tvTable);
+      return 'Removed from Watchlist';
+    } catch (e) {
+      throw DatabaseException(e.toString());
     }
   }
 }
