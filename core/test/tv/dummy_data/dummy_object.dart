@@ -1,8 +1,7 @@
-import 'package:ditonton/domain/entities/movie_detail.dart';
-import 'package:ditonton/tv/data/models/tv_model.dart';
-import 'package:ditonton/tv/data/models/tv_table.dart';
-import 'package:ditonton/tv/domain/entities/tv.dart';
-import 'package:ditonton/tv/domain/entities/tv_detail.dart';
+import 'package:core/tv/data/models/tv_model.dart';
+import 'package:core/tv/data/models/tv_table.dart';
+import 'package:core/tv/domain/entities/tv.dart';
+import 'package:core/tv/domain/entities/tv_detail.dart';
 
 final tTvModel = TvModel(
     backdropPath: "/etj8E2o0Bud0HkONVQPjyCkIvpv.jpg",

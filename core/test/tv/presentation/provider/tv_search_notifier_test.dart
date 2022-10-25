@@ -1,13 +1,8 @@
+import 'package:core/core.dart';
+import 'package:core/tv/domain/entities/tv.dart';
+import 'package:core/tv/domain/usecases/search_tv.dart';
+import 'package:core/tv/presentation/provider/tv_search_notifier.dart';
 import 'package:dartz/dartz.dart';
-import 'package:ditonton/common/failure.dart';
-import 'package:ditonton/common/state_enum.dart';
-import 'package:ditonton/domain/entities/movie.dart';
-import 'package:ditonton/domain/usecases/search_movies.dart';
-import 'package:ditonton/presentation/provider/movie_search_notifier.dart';
-import 'package:ditonton/tv/data/models/tv_model.dart';
-import 'package:ditonton/tv/domain/entities/tv.dart';
-import 'package:ditonton/tv/domain/usecases/search_tv.dart';
-import 'package:ditonton/tv/presentation/provider/tv_search_notifier.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';

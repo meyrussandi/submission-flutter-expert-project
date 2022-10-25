@@ -1,4 +1,5 @@
 import 'package:core/core.dart';
+import 'package:search/search.dart';
 import 'package:core/data/datasources/db/database_helper.dart';
 import 'package:core/data/datasources/movie_local_data_source.dart';
 import 'package:core/data/datasources/movie_remote_data_source.dart';
@@ -13,10 +14,8 @@ import 'package:core/domain/usecases/get_watchlist_movies.dart';
 import 'package:core/domain/usecases/get_watchlist_status.dart';
 import 'package:core/domain/usecases/remove_watchlist.dart';
 import 'package:core/domain/usecases/save_watchlist.dart';
-import 'package:core/domain/usecases/search_movies.dart';
 import 'package:core/presentation/provider/movie_detail_notifier.dart';
 import 'package:core/presentation/provider/movie_list_notifier.dart';
-import 'package:core/presentation/provider/movie_search_notifier.dart';
 import 'package:core/presentation/provider/popular_movies_notifier.dart';
 import 'package:core/presentation/provider/top_rated_movies_notifier.dart';
 import 'package:core/presentation/provider/watchlist_movie_notifier.dart';

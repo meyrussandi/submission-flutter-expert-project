@@ -1,6 +1,5 @@
+import 'package:core/tv/domain/usecases/get_tv_watchlist_status.dart';
 import 'package:dartz/dartz.dart';
-import 'package:ditonton/tv/domain/usecases/get_tv_recomendations.dart';
-import 'package:ditonton/tv/domain/usecases/get_tv_watchlist_status.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 

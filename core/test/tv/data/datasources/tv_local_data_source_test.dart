@@ -1,6 +1,5 @@
-import 'package:ditonton/common/exception.dart';
-import 'package:ditonton/tv/data/datasources/tv_local_data_source.dart';
-import 'package:ditonton/tv/data/models/tv_table.dart';
+import 'package:core/core.dart';
+import 'package:core/tv/data/datasources/tv_local_data_source.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
