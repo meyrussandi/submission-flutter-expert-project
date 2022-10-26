@@ -1,4 +1,5 @@
 import 'package:core/core.dart';
+import 'package:search/presentation/bloc/search_bloc.dart';
 import 'package:search/search.dart';
 import 'package:core/data/datasources/db/database_helper.dart';
 import 'package:core/data/datasources/movie_local_data_source.dart';
@@ -46,6 +47,9 @@ import 'package:get_it/get_it.dart';
 final locator = GetIt.instance;
 
 void init() {
+//bloc
+  locator.registerFactory(() => SearchBloc(locator()));
+
   // provider
 
   locator.registerFactory(() => TabMenuNotifier());

@@ -1,5 +1,7 @@
 import 'package:about/about_page.dart';
 import 'package:core/core.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:search/presentation/bloc/search_bloc.dart';
 import 'package:search/search.dart';
 import 'package:core/presentation/pages/home_movie_page.dart';
 import 'package:core/presentation/pages/movie_detail_page.dart';
@@ -72,6 +74,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => di.locator<TvSearchNotifier>(),
         ),
+        BlocProvider(create: (_) => di.locator<SearchBloc>())
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
