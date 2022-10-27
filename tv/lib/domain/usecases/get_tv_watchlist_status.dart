@@ -1,6 +1,3 @@
-import 'package:dartz/dartz.dart';
-import 'package:core/utils/failure.dart';
-
 import '../repositories/tv_repository.dart';
 
 class GetTvWatchListStatus {
