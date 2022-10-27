@@ -1,35 +1,35 @@
 import 'package:about/about_page.dart';
 import 'package:core/core.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:search/presentation/bloc/search_bloc.dart';
-import 'package:search/search.dart';
-import 'package:core/presentation/pages/home_movie_page.dart';
-import 'package:core/presentation/pages/movie_detail_page.dart';
-import 'package:core/presentation/pages/popular_movies_page.dart';
-import 'package:core/presentation/pages/top_rated_movies_page.dart';
-import 'package:core/presentation/pages/watchlist_movies_page.dart';
-import 'package:core/presentation/provider/movie_detail_notifier.dart';
-import 'package:core/presentation/provider/movie_list_notifier.dart';
-import 'package:core/presentation/provider/popular_movies_notifier.dart';
-import 'package:core/presentation/provider/top_rated_movies_notifier.dart';
-import 'package:core/presentation/provider/watchlist_movie_notifier.dart';
-import 'package:core/presentation/widgets/custom_drawer.dart';
 import 'package:core/provider/tab_menu_notifier.dart';
-import 'package:core/tv/presentation/pages/home_tv_page.dart';
-import 'package:core/tv/presentation/pages/now_playing_tv_page.dart';
-import 'package:core/tv/presentation/pages/popular_tv_page.dart';
-import 'package:core/tv/presentation/pages/search_tv_page.dart';
-import 'package:core/tv/presentation/pages/top_rated_tv_page.dart';
-import 'package:core/tv/presentation/pages/tv_detail_page.dart';
-import 'package:core/tv/presentation/pages/watchlist_tv_page.dart';
-import 'package:core/tv/presentation/provider/tv_detail_notifier.dart';
-import 'package:core/tv/presentation/provider/tv_list_notifier.dart';
-import 'package:core/tv/presentation/provider/tv_search_notifier.dart';
-import 'package:core/tv/presentation/provider/watchlist_tv_notifier.dart';
+import 'package:ditonton/injection.dart' as di;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie/presentation/pages/home_movie_page.dart';
+import 'package:movie/presentation/pages/movie_detail_page.dart';
+import 'package:movie/presentation/pages/popular_movies_page.dart';
+import 'package:movie/presentation/pages/top_rated_movies_page.dart';
+import 'package:movie/presentation/pages/watchlist_movies_page.dart';
+import 'package:movie/presentation/provider/movie_detail_notifier.dart';
+import 'package:movie/presentation/provider/movie_list_notifier.dart';
+import 'package:movie/presentation/provider/popular_movies_notifier.dart';
+import 'package:movie/presentation/provider/top_rated_movies_notifier.dart';
+import 'package:movie/presentation/provider/watchlist_movie_notifier.dart';
+import 'package:movie/presentation/widgets/custom_drawer.dart';
 import 'package:provider/provider.dart';
-import 'package:ditonton/injection.dart' as di;
+import 'package:search/presentation/bloc/search_bloc.dart';
+import 'package:search/search.dart';
+import 'package:tv/presentation/pages/home_tv_page.dart';
+import 'package:tv/presentation/pages/now_playing_tv_page.dart';
+import 'package:tv/presentation/pages/popular_tv_page.dart';
+import 'package:tv/presentation/pages/search_tv_page.dart';
+import 'package:tv/presentation/pages/top_rated_tv_page.dart';
+import 'package:tv/presentation/pages/tv_detail_page.dart';
+import 'package:tv/presentation/pages/watchlist_tv_page.dart';
+import 'package:tv/presentation/provider/tv_detail_notifier.dart';
+import 'package:tv/presentation/provider/tv_list_notifier.dart';
+import 'package:tv/presentation/provider/tv_search_notifier.dart';
+import 'package:tv/presentation/provider/watchlist_tv_notifier.dart';
 
 void main() {
   di.init();
@@ -95,37 +95,37 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(builder: (_) => HomeMoviePage());
             case '/tv':
               return MaterialPageRoute(builder: (_) => HomeTvPage());
-            case PopularMoviesPage.ROUTE_NAME:
+            case POPULAR_MOVIES_ROUTE:
               return CupertinoPageRoute(builder: (_) => PopularMoviesPage());
-            case TopRatedMoviesPage.ROUTE_NAME:
+            case TOP_RATED_ROUTE:
               return CupertinoPageRoute(builder: (_) => TopRatedMoviesPage());
-            case MovieDetailPage.ROUTE_NAME:
+            case MOVIE_DETAIL_ROUTE:
               final id = settings.arguments as int;
               return MaterialPageRoute(
                 builder: (_) => MovieDetailPage(id: id),
                 settings: settings,
               );
-            case SearchPage.ROUTE_NAME:
+            case SEARCH_ROUTE:
               return CupertinoPageRoute(builder: (_) => SearchPage());
-            case WatchlistMoviesPage.ROUTE_NAME:
+            case WATCHLIST_MOVIE_ROUTE:
               return MaterialPageRoute(builder: (_) => WatchlistMoviesPage());
             case ABOUT_ROUTE:
               return MaterialPageRoute(builder: (_) => AboutPage());
-            case PopularTvPage.ROUTE_NAME:
+            case POPULAR_TV_ROUTE:
               return CupertinoPageRoute(builder: (_) => PopularTvPage());
-            case TopRatedTvPage.ROUTE_NAME:
+            case TOP_RATED_TV_ROUTE:
               return CupertinoPageRoute(builder: (_) => TopRatedTvPage());
-            case NowPlayingTvPage.ROUTE_NAME:
+            case NOW_PLAYING_TV_ROUTE:
               return CupertinoPageRoute(builder: (_) => NowPlayingTvPage());
-            case TvDetailPage.ROUTE_NAME:
+            case DETAIL_TV_ROUTE:
               final id = settings.arguments as int;
               return MaterialPageRoute(
                 builder: (_) => TvDetailPage(id: id),
                 settings: settings,
               );
-            case WatchlistTvPage.ROUTE_NAME:
+            case WATCHLIST_TV_ROUTE:
               return MaterialPageRoute(builder: (_) => WatchlistTvPage());
-            case SearchTvPage.ROUTE_NAME:
+            case SEARCH_TV_ROUTE:
               return MaterialPageRoute(builder: (_) => SearchTvPage());
             default:
               return MaterialPageRoute(builder: (_) {

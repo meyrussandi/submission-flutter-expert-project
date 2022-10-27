@@ -23,6 +23,10 @@ environment:
 dependencies:
   about:
     path: about
+  movie:
+    path: movie
+  tv:
+    path: tv
   cached_network_image: ^3.0.0
   core:
     path: core
