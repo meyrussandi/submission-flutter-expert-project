@@ -23,7 +23,6 @@ dependencies:
   flutter_rating_bar: ^4.0.0
   google_fonts: ^3.0.1
   http: ^0.13.3
-  provider: ^6.0.3
   search:
     path: ../search
   sqflite: ^2.0.0+3

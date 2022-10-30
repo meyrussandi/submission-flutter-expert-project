@@ -25,7 +25,6 @@ dependencies:
   flutter_rating_bar: ^4.0.0
   google_fonts: ^3.0.1
   http: ^0.13.3
-  provider: ^6.0.3
   search:
     path: ../search
   sqflite: ^2.0.0+3
@@ -41,6 +40,7 @@ dev_dependencies:
     sdk: flutter
   mockito: ^5.3.2
   build_runner: ^2.0.4
+  mocktail: ^0.2.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

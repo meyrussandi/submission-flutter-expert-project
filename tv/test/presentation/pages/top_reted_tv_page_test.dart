@@ -1,24 +1,30 @@
-import 'package:core/core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
-import 'package:provider/provider.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:tv/domain/entities/tv.dart';
+import 'package:tv/presentation/bloc/tv_top_rated_bloc.dart';
 import 'package:tv/presentation/pages/top_rated_tv_page.dart';
-import 'package:tv/presentation/provider/tv_list_notifier.dart';
 
-import 'popular_tv_page_test.mocks.dart';
+class MockTvTopRatedBloc extends Mock implements TvTopRatedBloc{}
+class TvTopRatedEventFake extends Fake implements TvTopRatedEvent{}
+class TvTopRatedSateFake extends Fake implements TvTopRatedState{}
 
 void main() {
-  late MockTvListNotifier mockTvListNotifier;
+  late TvTopRatedBloc tvTopRatedBloc;
+
+  setUpAll((){
+    registerFallbackValue(TvTopRatedEventFake());
+    registerFallbackValue(TvTopRatedSateFake());
+  });
 
   setUp(() {
-    mockTvListNotifier = MockTvListNotifier();
+    tvTopRatedBloc = MockTvTopRatedBloc();
   });
 
   Widget _makeTesttableWidget(Widget body) {
-    return ChangeNotifierProvider<TvListNotifier>.value(
-      value: mockTvListNotifier,
+    return BlocProvider<TvTopRatedBloc>.value(
+      value: tvTopRatedBloc,
       child: MaterialApp(
         home: body,
       ),
@@ -28,7 +34,8 @@ void main() {
   testWidgets(
       "seharusnya halaman menampilkan loading ketika sedang mendapatkan data",
       (WidgetTester tester) async {
-    when(mockTvListNotifier.topRatedState).thenReturn(RequestState.Loading);
+        when(()=>tvTopRatedBloc.stream).thenAnswer((_) => Stream.value(TvTopRatedLoadingState()));
+        when(()=>tvTopRatedBloc.state).thenReturn(TvTopRatedLoadingState());
 
     final progressBarFinder = find.byType(CircularProgressIndicator);
     final centerFind = find.byType(Center);
@@ -42,8 +49,8 @@ void main() {
   testWidgets(
       "seharusnya halaman menampilkan data list tv top rated ketika berhasil mendapatkan data",
       (WidgetTester tester) async {
-    when(mockTvListNotifier.topRatedState).thenReturn(RequestState.Loaded);
-    when(mockTvListNotifier.topRatedTv).thenReturn(<Tv>[]);
+    when(()=>tvTopRatedBloc.stream).thenAnswer((_) => Stream.value(const TvTopRatedLoadedState(<Tv>[])));
+    when(()=>tvTopRatedBloc.state).thenReturn(const TvTopRatedLoadedState(<Tv>[]));
 
     final listViewFinder = find.byType(ListView);
 
@@ -55,8 +62,9 @@ void main() {
   testWidgets(
       "seharusnya menampilkan pesan error ketika gagal mendapatkan data",
       (WidgetTester tester) async {
-    when(mockTvListNotifier.topRatedState).thenReturn(RequestState.Error);
-    when(mockTvListNotifier.message).thenReturn("Error Message");
+
+    when(()=>tvTopRatedBloc.stream).thenAnswer((_) => Stream.value(const TvTopRatedErrorState("Error Message")));
+    when(()=>tvTopRatedBloc.state).thenReturn(const TvTopRatedErrorState("Error Message"));
 
     final textFinder = find.byKey(Key('error_message'));
 

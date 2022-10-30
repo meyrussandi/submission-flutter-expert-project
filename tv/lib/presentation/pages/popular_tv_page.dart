@@ -1,8 +1,7 @@
-import 'package:core/core.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tv/presentation/bloc/tv_popular_bloc.dart';
 
-import '../provider/tv_list_notifier.dart';
 import '../widgets/tv_card_list.dart';
 
 class PopularTvPage extends StatefulWidget {
@@ -16,37 +15,39 @@ class _PopularTvPageState extends State<PopularTvPage> {
   void initState() {
     super.initState();
     Future.microtask(() =>
-        Provider.of<TvListNotifier>(context, listen: false).fetchPopularTv());
+        context.read<TvPopularBloc>().add(FetchTvPopularEvent()));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Popular Tv'),
+        title: const Text('Popular Tv'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Consumer<TvListNotifier>(
-          builder: (context, data, child) {
-            if (data.popularState == RequestState.Loading) {
-              return Center(
+        child: BlocBuilder<TvPopularBloc, TvPopularState>(
+          builder: (context, state) {
+            if (state is TvPopularLoadingState) {
+              return const Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (data.popularState == RequestState.Loaded) {
+            } else if (state is TvPopularLoadedState) {
               return ListView.builder(
                 itemBuilder: (context, index) {
-                  final tv = data.popularTv[index];
+                  final tv = state.tvPopularList[index];
                   return TvCard(tv);
                 },
-                itemCount: data.popularTv.length,
+                itemCount: state.tvPopularList.length,
               );
-            } else {
+            } else if (state is TvPopularErrorState){
               return Center(
                 key: Key('error_message'),
-                child: Text(data.message),
+                child: Text(state.msg),
               );
             }
+
+            return const Center(child: SizedBox(),);
           },
         ),
       ),

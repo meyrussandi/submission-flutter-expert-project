@@ -1,6 +1,7 @@
 import 'package:core/core.dart';
-import 'package:core/provider/tab_menu_notifier.dart';
+import 'package:core/cubit/tab_menu_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:tv/presentation/pages/home_tv_page.dart';
 
@@ -54,8 +55,9 @@ class _CustomDrawerState extends State<CustomDrawer>
           ),
           ListTile(
             onTap: () {
-              Provider.of<TabMenuNotifier>(context, listen: false)
-                  .currentMenuTab = MenuTabState.Movie;
+              // Provider.of<TabMenuNotifier>(context, listen: false)
+              //     .currentMenuTab = MenuTabState.Movie;
+              context.read<TabMenuCubit>().changeMenu(MenuTabState.Movie);
               _animationController.reverse();
             },
             leading: Icon(Icons.movie),
@@ -63,8 +65,10 @@ class _CustomDrawerState extends State<CustomDrawer>
           ),
           ListTile(
             onTap: () {
-              Provider.of<TabMenuNotifier>(context, listen: false)
-                  .currentMenuTab = MenuTabState.Tv;
+              // Provider.of<TabMenuNotifier>(context, listen: false)
+              //     .currentMenuTab = MenuTabState.Tv;
+              context.read<TabMenuCubit>().changeMenu(MenuTabState.Tv);
+
               _animationController.reverse();
             },
             leading: Icon(Icons.tv),
@@ -117,12 +121,11 @@ class _CustomDrawerState extends State<CustomDrawer>
                   ..translate(slide)
                   ..scale(scale),
                 alignment: Alignment.centerLeft,
-                child:
-                    Consumer<TabMenuNotifier>(builder: (context, data, child) {
-                  final state = data.currentMenuTab;
-                  if (state == MenuTabState.Movie) {
+                child: BlocBuilder<TabMenuCubit, TabMenuState>(
+                    builder: (context, state) {
+                  if (state.tab == MenuTabState.Movie) {
                     return HomeMoviePage();
-                  } else if (state == MenuTabState.Tv) {
+                  } else if (state.tab == MenuTabState.Tv) {
                     return HomeTvPage();
                   }
                   return Container(

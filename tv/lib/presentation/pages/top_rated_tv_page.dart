@@ -1,8 +1,7 @@
-import 'package:core/core.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tv/presentation/bloc/tv_top_rated_bloc.dart';
 
-import '../provider/tv_list_notifier.dart';
 import '../widgets/tv_card_list.dart';
 
 class TopRatedTvPage extends StatefulWidget {
@@ -16,37 +15,39 @@ class _TopRatedTvPageState extends State<TopRatedTvPage> {
   void initState() {
     super.initState();
     Future.microtask(() =>
-        Provider.of<TvListNotifier>(context, listen: false).fetchTopRatedTv());
+        context.read<TvTopRatedBloc>().add(FetchTvTopRatedEvent()));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Top Rated Tv'),
+        title: const Text('Top Rated Tv'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Consumer<TvListNotifier>(
-          builder: (context, data, child) {
-            if (data.topRatedState == RequestState.Loading) {
-              return Center(
+        child: BlocBuilder<TvTopRatedBloc, TvTopRatedState>(
+          builder: (context, state) {
+            if (state is TvTopRatedLoadingState) {
+              return const Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (data.topRatedState == RequestState.Loaded) {
+            } else if (state is TvTopRatedLoadedState) {
               return ListView.builder(
                 itemBuilder: (context, index) {
-                  final tv = data.topRatedTv[index];
+                  final tv = state.tvTopRatedList[index];
                   return TvCard(tv);
                 },
-                itemCount: data.topRatedTv.length,
+                itemCount: state.tvTopRatedList.length,
               );
-            } else {
+            } else if (state is TvTopRatedErrorState){
               return Center(
                 key: Key('error_message'),
-                child: Text(data.message),
+                child: Text(state.msg),
               );
             }
+
+            return const Center(child: SizedBox(),);
           },
         ),
       ),

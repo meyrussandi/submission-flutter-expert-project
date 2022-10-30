@@ -8,7 +8,8 @@ import 'package:movie/domain/entities/movie.dart';
 import 'package:search/domain/usecases/search_movies.dart';
 import 'package:search/presentation/bloc/search_bloc.dart';
 
-import '../provider/movie_search_notifier_test.mocks.dart';
+import 'search_bloc_test.mocks.dart';
+
 
 @GenerateMocks([SearchMovies])
 void main() {
