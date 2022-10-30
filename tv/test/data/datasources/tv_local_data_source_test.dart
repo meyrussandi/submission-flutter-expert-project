@@ -126,7 +126,7 @@ void main() {
       // act
       final result = await localDataSource.insertTvWatchList(testTvCache);
       // assert
-      expect(result, 'Added to Watchlist');
+      expect(result, 'Added Tv to Watchlist');
     });
 
     test('seharuisnya mengambalikan exception ketika gagala', () async {
@@ -147,7 +147,7 @@ void main() {
       // act
       final result = await localDataSource.removeTvWatchList(testTvCache);
       // assert
-      expect(result, 'Removed from Watchlist');
+      expect(result, 'Removed Tv from Watchlist');
     });
 
     test('seharusnya mengembalikan error ketikla gagal hapus', () async {
