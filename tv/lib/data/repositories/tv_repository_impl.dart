@@ -30,6 +30,10 @@ class TvRepositoryImpl implements TvRepository {
         return Right(result.map((e) => e.toEntity()).toList());
       } on ServerException {
         return Left(ServerFailure(''));
+      }on TlsException catch (e) {
+        return Left(CommonFailure('Certificated not valid\n${e.message}'));
+      } catch (e) {
+        return Left(CommonFailure(e.toString()));
       }
     } else {
       try {
@@ -51,6 +55,10 @@ class TvRepositoryImpl implements TvRepository {
         return Right(result.map((e) => e.toEntity()).toList());
       } on ServerException {
         return Left(ServerFailure(''));
+      }on TlsException catch (e) {
+        return Left(CommonFailure('Certificated not valid\n${e.message}'));
+      } catch (e) {
+        return Left(CommonFailure(e.toString()));
       }
     } else {
       try {
@@ -72,6 +80,10 @@ class TvRepositoryImpl implements TvRepository {
         return Right(result.map((e) => e.toEntity()).toList());
       } on ServerException {
         return Left(ServerFailure(''));
+      }on TlsException catch (e) {
+        return Left(CommonFailure('Certificated not valid\n${e.message}'));
+      } catch (e) {
+        return Left(CommonFailure(e.toString()));
       }
     } else {
       try {
@@ -91,6 +103,10 @@ class TvRepositoryImpl implements TvRepository {
         return Right(result.toEntity());
       } on ServerException {
         return Left(ServerFailure(''));
+      }on TlsException catch (e) {
+        return Left(CommonFailure('Certificated not valid\n${e.message}'));
+      } catch (e) {
+        return Left(CommonFailure(e.toString()));
       }
     } else {
       return Left(ConnectionFailure("no network"));
@@ -105,6 +121,10 @@ class TvRepositoryImpl implements TvRepository {
         return Right(result.map((e) => e.toEntity()).toList());
       } on ServerException {
         return Left(ServerFailure(''));
+      }on TlsException catch (e) {
+        return Left(CommonFailure('Certificated not valid\n${e.message}'));
+      } catch (e) {
+        return Left(CommonFailure(e.toString()));
       }
     } else {
       return Left(ConnectionFailure("no network"));
@@ -156,6 +176,10 @@ class TvRepositoryImpl implements TvRepository {
       return Left(ServerFailure(''));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
+    }on TlsException catch (e) {
+      return Left(CommonFailure('Certificated not valid\n${e.message}'));
+    } catch (e) {
+      return Left(CommonFailure(e.toString()));
     }
   }
 }

@@ -1,8 +1,8 @@
 import 'package:core/core.dart';
 import 'package:core/cubit/tab_menu_cubit.dart';
+import 'package:core/utils/http_ssl_pinning.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:get_it/get_it.dart';
-import 'package:http/http.dart' as http;
 import 'package:movie/domain/repositories/movie_repository.dart';
 import 'package:movie/domain/usecases/get_movie_detail.dart';
 import 'package:movie/domain/usecases/get_movie_recommendations.dart';
@@ -155,6 +155,6 @@ void init() {
   locator.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(locator()));
 
   // external
-  locator.registerLazySingleton(() => http.Client());
+  locator.registerLazySingleton(() => HttpSSLPinning.client);
   locator.registerLazySingleton(() => DataConnectionChecker());
 }
