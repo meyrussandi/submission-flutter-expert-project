@@ -24,7 +24,10 @@ import 'package:search/presentation/bloc/search_bloc.dart';
 import 'package:search/search.dart';
 import 'package:tv/presentation/bloc/tv_detail_bloc.dart';
 import 'package:tv/presentation/bloc/tv_list_bloc.dart';
+import 'package:tv/presentation/bloc/tv_now_playing_bloc.dart';
+import 'package:tv/presentation/bloc/tv_popular_bloc.dart';
 import 'package:tv/presentation/bloc/tv_search_bloc.dart';
+import 'package:tv/presentation/bloc/tv_top_rated_bloc.dart';
 import 'package:tv/presentation/bloc/tv_watchlist_bloc.dart';
 import 'package:tv/presentation/pages/home_tv_page.dart';
 import 'package:tv/presentation/pages/now_playing_tv_page.dart';
@@ -66,6 +69,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => di.locator<TvSearchBloc>()),
         BlocProvider(create: (_) => di.locator<TvDetailBloc>()),
         BlocProvider(create: (_) => di.locator<TvListBloc>()),
+        BlocProvider(create: (_) => di.locator<TvNowPlayingBloc>()),
+        BlocProvider(create: (_) => di.locator<TvPopularBloc>()),
+        BlocProvider(create: (_) => di.locator<TvTopRatedBloc>()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
